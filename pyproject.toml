@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "buscando-milhao-shorts"
+version = "0.1.0"
+description = "Automacao de Shorts sobre reforma tributaria e educacao financeira"
+requires-python = ">=3.11"
+dependencies = [
+  "PyYAML>=6.0",
+  "feedparser>=6.0",
+  "Pillow>=10.0",
+  "edge-tts>=6.1",
+  "google-api-python-client>=2.120",
+  "google-auth-oauthlib>=1.2",
+]
+
+[project.optional-dependencies]
+video = ["moviepy>=1.0.3"]
+test = ["pytest>=8.0"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

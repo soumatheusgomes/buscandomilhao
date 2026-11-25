@@ -32,3 +32,12 @@ traces/
 
 # os
 .DS_Store
+__pycache__/
+*.py[cod]
+
+# project runtime
+data/
+output/
+*.mp4
+*.wav
+*.mp3
