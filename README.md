@@ -34,6 +34,49 @@
 
 ---
 
+## Pipeline de cortes esportivos (Python)
+
+O `pipeline_cortes.py` recebe uma URL de vídeo do YouTube ou um arquivo local, transcreve o áudio com timestamps via API da OpenAI, seleciona de 3 a 5 trechos de 45–65 segundos e renderiza vídeos verticais 1080×1920 com hook na tela. Os cortes, legendas e metadados são gravados em `outputs/cortes/`.
+
+### Requisitos
+
+- Python 3.10 ou superior
+- FFmpeg e FFprobe instalados e disponíveis no `PATH`
+- Chave da API da OpenAI com acesso ao modelo de transcrição e ao modelo configurado para análise
+- Acesso autorizado ao arquivo e permissão para baixar, editar e publicar o conteúdo. Respeite direitos autorais e termos da plataforma.
+
+O áudio é enviado à API da OpenAI para transcrição; isso pode gerar custos. O script não publica os vídeos automaticamente. Revise cortes, títulos e legendas antes de publicar.
+
+### Instalação
+
+```powershell
+py -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+Copy-Item .env.example .env
+```
+
+Edite `.env` e configure `OPENAI_API_KEY` e `OPENAI_MODEL`. `TRANSCRIPTION_MODEL` usa `whisper-1` por padrão. Opcionalmente, indique uma fonte TrueType em `FONT_PATH`.
+
+Instale o FFmpeg pelo gerenciador de pacotes do sistema e confirme que `ffmpeg` e `ffprobe` estão no `PATH`. No Windows, por exemplo, use `winget install Gyan.FFmpeg` e abra um novo terminal após a instalação.
+
+### Uso
+
+```powershell
+python pipeline_cortes.py --input "https://www.youtube.com/watch?v=VIDEO_ID"
+python pipeline_cortes.py --input "C:\Videos\entrevista.mp4" --layout crop
+```
+
+`--layout blur` (padrão) mantém o vídeo completo sobre um fundo desfocado. `--layout crop` preenche o quadro vertical com corte central. Para alterar a pasta de saída:
+
+```powershell
+python pipeline_cortes.py --input "C:\Videos\podcast.mp4" --output-dir "outputs\meus-cortes"
+```
+
+Cada vídeo `corte_XX.mp4` vem acompanhado por `corte_XX.txt` (hook e legenda) e os dados de todos os cortes ficam em `manifest.json`. O vídeo de origem precisa ter pelo menos 135 segundos para que o pipeline possa selecionar três cortes distintos. Erros de transcrição, seleção inválida ou ferramentas ausentes encerram a execução com uma mensagem explícita.
+
+---
+
 ## 🎯 O que é
 
 Um agente de IA que prospecta pelo Instagram sozinho: acha o lead, qualifica, escreve a primeira mensagem, entende a resposta, conduz a conversa, encaminha pro WhatsApp e **aprende com o que converteu** — ajustando público, texto, horário e cadência sem ninguém mandar.
