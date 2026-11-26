@@ -17,6 +17,10 @@ def valid_news() -> NewsItem:
 
 def configure_pipeline(monkeypatch, tmp_path, items, *, video_created=True, auto_publish=False, upload_status="uploaded"):
     monkeypatch.chdir(tmp_path)
+    if auto_publish:
+        monkeypatch.setenv("YOUTUBE_AUTO_PUBLISH", "true")
+    else:
+        monkeypatch.delenv("YOUTUBE_AUTO_PUBLISH", raising=False)
     monkeypatch.setattr(pipeline, "collect", lambda _sources: items)
     monkeypatch.setattr(pipeline, "render_slides", lambda *_args: [])
     monkeypatch.setattr(pipeline, "synthesize", lambda *_args: False)
@@ -95,6 +99,7 @@ def test_noticia_so_e_registrada_apos_upload_bem_sucedido(monkeypatch, tmp_path)
         auto_publish=True,
         upload_status="uploaded",
     )
+    config["publish"]["auto_publish"] = False
 
     pipeline.run(config, "07:00")
     storage = Storage()
@@ -102,6 +107,22 @@ def test_noticia_so_e_registrada_apos_upload_bem_sucedido(monkeypatch, tmp_path)
     storage.close()
 
     assert is_seen
+
+
+def test_upload_permanece_desligado_sem_variavel_de_ambiente(monkeypatch, tmp_path):
+    config = configure_pipeline(
+        monkeypatch,
+        tmp_path,
+        [valid_news()],
+        auto_publish=True,
+    )
+    monkeypatch.delenv("YOUTUBE_AUTO_PUBLISH")
+    upload_calls = []
+    monkeypatch.setattr(pipeline, "upload_short", lambda *_args: upload_calls.append(True))
+
+    result = pipeline.run(config, "07:00")
+
+    assert upload_calls == []
 
 
 def test_noticia_nao_e_registrada_quando_upload_falha(monkeypatch, tmp_path):

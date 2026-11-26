@@ -86,18 +86,17 @@ Quando `auto_publish: true`, o upload criado fica privado inicialmente. O status
 
 O horario nao observa horario de verao em Cuiaba. O workflow gera slides, roteiro e artefatos em modo revisao por padrao.
 
-Para ligar publicacao automatica:
+Para ligar publicacao automatica, defina a variavel de ambiente `YOUTUBE_AUTO_PUBLISH=true`. O valor no YAML nao habilita uploads; a variavel e a unica chave de ativacao.
 
 1. Adicione e valide os tres secrets.
-2. Configure `publish.auto_publish: true` no arquivo versionado.
+2. Defina `YOUTUBE_AUTO_PUBLISH=true` no ambiente local ou na variavel de Actions com o mesmo nome.
 3. Rode a analise manual.
 4. Confirme que o canal esta elegivel para a API.
 
 Para desligar:
 
-```yaml
-publish:
-  auto_publish: false
+```text
+YOUTUBE_AUTO_PUBLISH=false
 ```
 
 ## Seguranca editorial

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import logging
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -65,7 +66,8 @@ def run(config: dict, slot: str) -> dict:
             "status": "review_ready",
         }
 
-        if not config["publish"]["auto_publish"]:
+        auto_publish = os.getenv("YOUTUBE_AUTO_PUBLISH", "").strip().casefold() == "true"
+        if not auto_publish:
             if kind == "news" and video_created:
                 storage.mark_seen(
                     identity,
