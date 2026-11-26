@@ -1,0 +1,42 @@
+timezone: America/Cuiaba
+schedule:
+  slots:
+    - "07:00"
+    - "18:00"
+
+news:
+  window_hours: 24
+  keywords:
+    - reforma tributaria
+    - CBS
+    - IBS
+    - Imposto Seletivo
+    - LC 214
+    - EC 132
+  sources:
+    - name: Receita Federal
+      url: https://www.gov.br/receitafederal/pt-br/assuntos/reforma-tributaria/rss
+      primary: true
+    - name: Diario Oficial da Uniao
+      url: https://in.gov.br/rss
+      primary: true
+    - name: Agencia Brasil
+      url: https://agenciabrasil.ebc.com.br/rssfeed
+      primary: false
+    - name: Migalhas
+      url: https://www.migalhas.com.br/rss
+      primary: false
+    - name: JOTA
+      url: https://www.jota.info/feed
+      primary: false
+
+video:
+  width: 1080
+  height: 1920
+  duration_seconds: 45
+  tts: edge
+
+publish:
+  auto_publish: false
+  max_daily_uploads: 2
+  youtube_quota_upload_cost: 1600
