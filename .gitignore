@@ -1,6 +1,9 @@
 # deps
 node_modules/
 .pnpm-store/
+.venv/
+__pycache__/
+*.py[cod]
 
 # env & secrets
 .env
@@ -29,6 +32,7 @@ out/
 logs/
 screenshots/
 traces/
+outputs/cortes/
 
 # os
 .DS_Store
